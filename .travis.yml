@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - '0.12'
+  - '0.10'
+
+addons:
+  apt:
+    packages:
+      - rpm
+
+before_install:
+  - npm install -g grunt-cli
+
+after_success:
+  - rpmlint test/fixtures/out/foo.x86.rpm
+  - rpmlint test/fixtures/out/bar.x86_64.rpm
