@@ -12,7 +12,8 @@ AutoReqProv: no
 <%= productDescription %>
 <% } %>
 %install
-cp -r * %{buildroot}/
+mkdir -p %{buildroot}/usr/
+cp -r usr/* %{buildroot}/usr/
 
 %files
 /usr/bin/<%= name %>

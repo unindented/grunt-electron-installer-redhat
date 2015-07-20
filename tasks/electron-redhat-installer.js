@@ -286,7 +286,7 @@ var createContents = function (options, dir, callback) {
  */
 var createPackage = function (options, dir, callback) {
   var specFile = path.join(dir, 'SPECS', options.name + '.spec');
-  spawn('rpmbuild', ['-bb', specFile], function (err) {
+  spawn('rpmbuild', ['-bb', specFile, '--target', options.arch], function (err) {
     callback(err, dir);
   });
 };

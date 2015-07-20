@@ -145,7 +145,7 @@ License of the package, used in the [`License` field of the `spec` file](https:/
 Type: `String`
 Default: `undefined`
 
-Machine architecture the package is targeted to, used to set the `%_target` macro.
+Machine architecture the package is targeted to, used to set the `--target` option.
 
 #### options.requires
 Type: `Array[String]`
