@@ -5,10 +5,16 @@
 
 ## Requirements
 
-This tool requires `rpmbuild` to build the `.rpm` package:
+This tool requires `rpmbuild` to build the `.rpm` package. On Fedora you can do something like this:
 
 ```
 $ sudo dnf install rpm-build
+```
+
+While on Ubuntu you'll need to do this instead:
+
+```
+$ sudo apt-get install rpm
 ```
 
 
