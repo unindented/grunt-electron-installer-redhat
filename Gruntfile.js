@@ -23,13 +23,7 @@ module.exports = function (grunt) {
     'electron-redhat-installer': {
       'options': {
         productDescription: 'Just a test.',
-        section: 'devel',
-        priority: 'optional',
-        arch: 'x86',
-        depends: [],
-        recommends: [],
-        suggests: [],
-        categories: []
+        arch: 'x86'
       },
 
       'app-with-asar': {
