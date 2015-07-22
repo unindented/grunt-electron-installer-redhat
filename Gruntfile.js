@@ -23,12 +23,15 @@ module.exports = function (grunt) {
     'electron-redhat-installer': {
       'options': {
         productDescription: 'Just a test.',
-        arch: 'x86'
+        arch: 'x86',
+        rename: function (dest) {
+          return dest + '<%= name %>.<%= arch %>.rpm';
+        }
       },
 
       'app-with-asar': {
         src: 'test/fixtures/app-with-asar/',
-        dest: 'test/fixtures/out/foo.x86.rpm'
+        dest: 'test/fixtures/out/'
       },
 
       'app-without-asar': {
@@ -42,7 +45,7 @@ module.exports = function (grunt) {
           ]
         },
         src: 'test/fixtures/app-without-asar/',
-        dest: 'test/fixtures/out/bar.x86_64.rpm'
+        dest: 'test/fixtures/out/'
       }
     },
 

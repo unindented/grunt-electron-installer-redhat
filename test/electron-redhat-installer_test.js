@@ -15,12 +15,12 @@ var testExistence = function (test, expectations) {
 exports.command = {
   'app with asar': function (test) {
     testExistence(test, [
-      'test/fixtures/out/foo.x86.rpm'
+      'test/fixtures/out/footest.x86.rpm'
     ]);
   },
   'app without asar': function (test) {
     testExistence(test, [
-      'test/fixtures/out/bar.x86_64.rpm'
+      'test/fixtures/out/bartest.x86_64.rpm'
     ]);
   }
 };
