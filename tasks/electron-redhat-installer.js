@@ -92,6 +92,8 @@ var getDefaults = function (task, callback) {
       revision: pkg.revision || '1',
       license: pkg.license,
 
+      group: undefined,
+
       arch: undefined,
 
       requires: [
