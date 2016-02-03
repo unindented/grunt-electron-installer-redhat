@@ -19,7 +19,7 @@ module.exports = function (grunt) {
       ]
     },
 
-    'electron-redhat-installer': {
+    'electron-installer-redhat': {
       options: {
         productDescription: 'Just a test.',
         arch: 'x86'
@@ -67,7 +67,7 @@ module.exports = function (grunt) {
 
   // Whenever the "test" task is run, first lint everything, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'eslint', 'electron-redhat-installer', 'nodeunit'])
+  grunt.registerTask('test', ['clean', 'eslint', 'electron-installer-redhat', 'nodeunit'])
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['test'])

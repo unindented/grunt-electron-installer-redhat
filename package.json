@@ -1,5 +1,5 @@
 {
-  "name": "grunt-electron-redhat-installer",
+  "name": "grunt-electron-installer-redhat",
   "description": "Create a Red Hat package for your Electron app.",
   "version": "0.2.2",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/unindented/grunt-electron-redhat-installer.git"
+    "url": "git://github.com/unindented/grunt-electron-installer-redhat.git"
   },
   "keywords": [
     "gruntplugin",

@@ -3,7 +3,7 @@
 var installer = require('electron-installer-redhat')
 
 module.exports = function (grunt) {
-  grunt.registerMultiTask('electron-redhat-installer',
+  grunt.registerMultiTask('electron-installer-redhat',
     'Create a Red Hat package for your Electron app.',
     function () {
       var done = this.async()
