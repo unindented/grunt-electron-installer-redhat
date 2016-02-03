@@ -2,8 +2,7 @@
 
 > Create a Red Hat package for your Electron app.
 
-
-🚨 This package has been renamed to `grunt-electron-installer-redhat`! 🚨
+Not a fan of [Grunt](http://gruntjs.com/)? Use the vanilla module [`electron-installer-redhat`](https://github.com/unindented/electron-installer-redhat)!
 
 
 ## Requirements
@@ -34,7 +33,7 @@ npm install grunt-electron-redhat-installer --save-dev
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('grunt-electron-redhat-installer');
+grunt.loadNpmTasks('grunt-electron-redhat-installer')
 ```
 
 *This plugin was designed to work with Grunt 0.4.x. If you're still using grunt v0.3.x it's strongly recommended that [you upgrade](http://gruntjs.com/upgrading-from-0.3-to-0.4), but in case you can't please use [v0.3.2](https://github.com/gruntjs/grunt-contrib-copy/tree/grunt-0.3-stable).*
@@ -48,27 +47,56 @@ Task targets, files and options may be specified according to the grunt [Configu
 
 ### Usage
 
-Say your app lives in `path/to/app`, and has a structure like this:
+Say your Electron app lives in `path/to/app`, and has a structure like this:
 
 ```
-$ tree path/to/app/ -L 2
-path/to/app/
+.
 ├── LICENSE
-├── index.js
-├── main
-│   ├── index.js
-│   └── squirrel.js
+├── README.md
 ├── node_modules
-│   ├── fs-plus
-│   └── yargs
+│   ├── electron-packager
+│   └── electron-prebuilt
 ├── package.json
-└── renderer
-    ├── index.css
-    ├── index.html
-    └── index.js
+├── resources
+│   ├── Icon.png
+│   ├── IconTemplate.png
+│   └── IconTemplate@2x.png
+└── src
+    ├── index.js
+    ├── main
+    │   └── index.js
+    └── renderer
+        ├── index.html
+        └── index.js
 ```
 
-To create a `.rpm` package from your app, the configuration for your task would look like this:
+You now run `electron-packager` to build the app for Red Hat:
+
+```
+$ electron-packager . app --platform linux --arch x64 --out dist/
+```
+
+And you end up with something like this in your `dist` folder:
+
+```
+.
+└── dist
+    └── app-linux-x64
+        ├── LICENSE
+        ├── LICENSES.chromium.html
+        ├── content_shell.pak
+        ├── app
+        ├── icudtl.dat
+        ├── libgcrypt.so.11
+        ├── libnode.so
+        ├── locales
+        ├── natives_blob.bin
+        ├── resources
+        ├── snapshot_blob.bin
+        └── version
+```
+
+In order to create a `.rpm` package for your app, the configuration for your Grunt task would look like this:
 
 ```js
 'electron-redhat-installer': {
@@ -76,13 +104,13 @@ To create a `.rpm` package from your app, the configuration for your task would 
     options: {
       arch: 'x86_64'
     },
-    src: 'path/to/app/',
-    dest: 'path/to/out/'
+    src: 'path/to/app/dist/app-linux-x64',
+    dest: 'path/to/app/dist/installers/'
   }
 }
 ```
 
-The task will try to extract all necessary information from your `package.json`, and then generate your package at `path/to/out`.
+The task will try to extract all necessary information from your `package.json`, and then generate your package at `path/to/app/dist/installers/`.
 
 You can also create different packages for different architectures, while manually overriding certain options:
 
@@ -93,170 +121,30 @@ You can also create different packages for different architectures, while manual
     productDescription: 'Bar baz qux.',
     categories: [
       'Utility'
-    ],
-    rename: function (dest, src) {
-      return dest + '<%= name %>-<%= version %>-<%= revision %>.<%= arch %>.rpm';
-    }
+    ]
   },
 
   linux32: {
     options: {
       arch: 'x86'
     },
-    src: 'path/to/linux32/',
-    dest: 'path/to/out/linux32/'
+    src: 'path/to/app/dist/app-linux-ia32',
+    dest: 'path/to/app/dist/installers/'
   },
 
   linux64: {
     options: {
       arch: 'x86_64'
     },
-    src: 'path/to/linux64/',
-    dest: 'path/to/out/linux64/'
+    src: 'path/to/app/dist/app-linux-x64',
+    dest: 'path/to/app/dist/installers/'
   }
 }
 ```
 
 ### Options
 
-#### src
-Type: `String`
-Default: `undefined`
-
-Path to the folder that contains your built Electron application.
-
-#### dest
-Type: `String`
-Default: `undefined`
-
-Path to the folder that will contain your Red Hat installer.
-
-#### options.name
-Type: `String`
-Default: `package.name`
-
-Name of the package (e.g. `atom`), used in the [`Name` field of the `spec` file](https://fedoraproject.org/wiki/How_to_create_an_RPM_package#Creating_a_SPEC_file).
-
-Check out the [Fedora Naming Guidelines](https://fedoraproject.org/wiki/Packaging:NamingGuidelines#Common_Character_Set_for_Package_Naming).
-
-#### options.productName
-Type: `String`
-Default: `package.productName || package.name`
-
-Name of the application (e.g. `Atom`), used in the [`Name` field of the `desktop` specification](http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html).
-
-#### options.genericName
-Type: `String`
-Default: `package.genericName || package.productName || package.name`
-
-Generic name of the application (e.g. `Text Editor`), used in the [`GenericName` field of the `desktop` specification](http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html).
-
-#### options.description
-Type: `String`
-Default: `package.description`
-
-Short description of the application, used in the [`Summary` field of the `spec` file](https://fedoraproject.org/wiki/How_to_create_an_RPM_package#Creating_a_SPEC_file).
-
-#### options.productDescription
-Type: `String`
-Default: `package.productDescription || package.description`
-
-Long description of the application, used in the [`%description` tag of the `spec` file](https://fedoraproject.org/wiki/How_to_create_an_RPM_package#Creating_a_SPEC_file).
-
-#### options.version
-Type: `String`
-Default: `package.version`
-
-Version number of the package, used in the [`Version` field of the `spec` file](https://fedoraproject.org/wiki/How_to_create_an_RPM_package#Creating_a_SPEC_file).
-
-#### options.revision
-Type: `String`
-Default: `package.revision`
-
-Revision number of the package, used in the [`Release` field of the `spec` file](https://fedoraproject.org/wiki/How_to_create_an_RPM_package#Creating_a_SPEC_file).
-
-#### options.license
-Type: `String`
-Default: `package.license`
-
-License of the package, used in the [`License` field of the `spec` file](https://fedoraproject.org/wiki/How_to_create_an_RPM_package#Creating_a_SPEC_file).
-
-#### options.group
-Type: `String`
-Default: `undefined`
-
-Group of the package, used in the [`Group` field of the `spec` file](https://fedoraproject.org/wiki/How_to_create_an_RPM_package#Creating_a_SPEC_file).
-
-#### options.arch
-Type: `String`
-Default: `undefined`
-
-Machine architecture the package is targeted to, used to set the `--target` option.
-
-#### options.requires
-Type: `Array[String]`
-Default: `['lsb']`
-
-Packages that are required when the program starts, used in the [`Requires` field of the `spec` file](https://fedoraproject.org/wiki/How_to_create_an_RPM_package#Creating_a_SPEC_file).
-
-#### options.homepage
-Type: `String`
-Default: `package.homepage || package.author.url`
-
-URL of the homepage for the package, used in the [`Homepage` field of the `control` specification](https://fedoraproject.org/wiki/How_to_create_an_RPM_package#Creating_a_SPEC_file).
-
-#### options.bin
-Type: `String`
-Default: `package.name`
-
-Relative path to the executable that will act as binary for the application, used in the [`Exec` field of the `desktop` specification](http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html).
-
-The generated package will contain a symlink `/usr/bin/<%= options.name %>` pointing to the path provided here.
-
-For example, providing this configuration:
-
-```js
-{
-  options: {
-    name: 'foo',
-    bin: 'resources/cli/launcher.sh'
-  },
-  src: '...',
-  dest: '...'
-}
-```
-
-Will create a package with the following symlink:
-
-```
-usr/bin/foo@ -> ../share/foo/resources/cli/launcher/sh
-```
-
-And a desktop specification with the following `Exec` key:
-
-```
-Exec=foo %U
-```
-
-#### options.icon
-Type: `String`
-Default: `undefined`
-
-Path to the image that will act as icon for the application, used in the [`Icon` field of the `desktop` specification](http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html).
-
-#### options.categories
-Type: `Array[String]`
-Default: `[]`
-
-Categories in which the application should be shown in a menu, used in the [`Categories` field of the `desktop` specification](http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html).
-
-For possible values check out the [Desktop Menu Specification](http://standards.freedesktop.org/menu-spec/latest/apa.html).
-
-#### options.rename
-Type: `Function`
-Default: `function (dest, src) { return dest + src; }`
-
-Function that renames all files generated by the task just before putting them in your `dest` folder.
+See the options supported by [`electron-installer-redhat`](https://github.com/unindented/electron-installer-redhat#options).
 
 
 ## Meta
@@ -272,4 +160,4 @@ Function that renames all files generated by the task just before putting them i
 
 ## License
 
-Copyright (c) 2015 Daniel Perez Alvarez ([unindented.org](https://unindented.org/)). This is free software, and may be redistributed under the terms specified in the LICENSE file.
+Copyright (c) 2016 Daniel Perez Alvarez ([unindented.org](https://unindented.org/)). This is free software, and may be redistributed under the terms specified in the LICENSE file.

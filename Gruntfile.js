@@ -1,5 +1,7 @@
+var path = require('path')
+
 module.exports = function (grunt) {
-  'use strict';
+  'use strict'
 
   // Project configuration.
   grunt.initConfig({
@@ -9,29 +11,26 @@ module.exports = function (grunt) {
       ]
     },
 
-    'jshint': {
+    'eslint': {
       all: [
         'Gruntfile.js',
         'tasks/*.js',
         '<%= nodeunit.tests %>'
-      ],
-      options: {
-        jshintrc: '.jshintrc'
-      }
+      ]
     },
 
     'electron-redhat-installer': {
-      'options': {
+      options: {
         productDescription: 'Just a test.',
-        arch: 'x86',
-        rename: function (dest) {
-          return dest + '<%= name %>.<%= arch %>.rpm';
-        }
+        arch: 'x86'
       },
 
       'app-with-asar': {
         src: 'test/fixtures/app-with-asar/',
-        dest: 'test/fixtures/out/'
+        dest: 'test/fixtures/out/',
+        rename: function (dest) {
+          return path.join(dest, '<%= name %>.<%= arch %>.rpm')
+        }
       },
 
       'app-without-asar': {
@@ -44,28 +43,32 @@ module.exports = function (grunt) {
             'Utility'
           ]
         },
+
         src: 'test/fixtures/app-without-asar/',
-        dest: 'test/fixtures/out/'
+        dest: 'test/fixtures/out/',
+        rename: function (dest) {
+          return path.join(dest, '<%= name %>.<%= arch %>.rpm')
+        }
       }
     },
 
-    nodeunit: {
+    'nodeunit': {
       tests: ['test/*_test.js']
     }
-  });
+  })
 
   // Actually load this plugin's task(s).
-  grunt.loadTasks('tasks');
+  grunt.loadTasks('tasks')
 
   // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-contrib-clean')
+  grunt.loadNpmTasks('grunt-contrib-nodeunit')
+  grunt.loadNpmTasks('grunt-eslint')
 
   // Whenever the "test" task is run, first lint everything, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'jshint', 'electron-redhat-installer', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'eslint', 'electron-redhat-installer', 'nodeunit'])
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['test']);
-};
+  grunt.registerTask('default', ['test'])
+}
