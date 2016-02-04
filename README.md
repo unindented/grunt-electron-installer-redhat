@@ -1,3 +1,5 @@
+![Electron Installer for Red Hat](resources/logo.png)
+
 # grunt-electron-installer-redhat [![Version](https://img.shields.io/npm/v/grunt-electron-installer-redhat.svg)](https://www.npmjs.com/package/grunt-electron-installer-redhat) [![Build Status](https://img.shields.io/travis/unindented/grunt-electron-installer-redhat.svg)](http://travis-ci.org/unindented/grunt-electron-installer-redhat) [![Dependency Status](https://img.shields.io/gemnasium/unindented/grunt-electron-installer-redhat.svg)](https://gemnasium.com/unindented/grunt-electron-installer-redhat)
 
 > Create a Red Hat package for your Electron app.
