@@ -3,6 +3,9 @@
 > Create a Red Hat package for your Electron app.
 
 
+🚨 This package has been renamed to `grunt-electron-installer-redhat`! 🚨
+
+
 ## Requirements
 
 This tool requires `rpmbuild` to build the `.rpm` package. On Fedora you can do something like this:
