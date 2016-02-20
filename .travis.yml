@@ -8,6 +8,14 @@ addons:
     packages:
       - rpm
 
+deploy:
+  provider: npm
+  email: unindented@gmail.com
+  api_key:
+    secure: TXkK1YPV5OlrBTaM8IuLYL2M3yrgf2QJAF+d4OGhKG2ibLHPPdO8egaFbWyjggt9zjgtmRHjjgukx6cq5bc6JRcxSuuWnZEL1pNsWN6pQimtWvaj1+E3c7OmDOxSApNW14QGLT7j98AvzigqBPdcquyjpzVK1z332snWIWJ67y8Bl6rZVfuN0H+unrEcKRWou48doVskZ5+BKjlcatW4WYFDroNA8UmWQRMXBZ3QVW6E8sn+4Rbm8jEbcTFQPpvaGMSnHsBclt1UC1/4ZkEsxLFvEDOfxgpaxXQCGADPVJ4gWLF/IGiRbAcJ2EKoN2m//IhaBpWeG46V7J0XUvxtpXhfNi0iOKcJxmN7kXegqheXk6PajeKnT6z4aCtArpPD4hQEH+/zbvLyRkQBkIOvuZ1cBMT1vw4xaxZdV204LmrcNXIu3pyS45n5XFmWYHmX6xxOJupHH19GzqC+H9qly9i38a5d1Di3Lsv8vPPOKGdV5b3tFbpStaorwkAuq/N5x97jA+iLgI/wf41LbR7NGzfO3fTzzsRDNKIOiPVsW0ELhM6feXSxqTfEILvG1LsPKMD9dY+nZlX1V9yaedKLeSBoN9s8k9PUOWkxMBfueR6Dxg74w1shnTrhV+IlRP/463XMZRN+7MkJxec/2mZHVKoWtFkUjqtUqWsB/wJakA4=
+  on:
+    tags: true
+
 before_install:
   - npm install -g grunt-cli
 
